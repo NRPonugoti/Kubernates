@@ -1,0 +1,69 @@
+3 Component in Worker Node :
+
+KUBELET :
+BASICALLY THIS KUBELET IS RESPONSBILE FOR RUNNING YOU POD 
+KUBELET WHICH IS RESPONSBILE FOR MAINTAINING THIS KUBERNATE POD , 
+KUBELET IS ALWAYS CHECKING POD THAT POD IS RUNNING OR NOT IF POD IS NOT RUNNING BECAUSE K8S HAS A FEATURE CALLED AUTO HEALING
+I HAVE TO INFORM K8S THAT OKAY THE POD IS NOT RUNNING DO SOMETHING  
+THAT'S WHY K8S HAS A COMPONENT CALLED KUBELET BUT EVEN IF THE POD HAS TO RUN LIKE THERE NEED TO BE SOMETHING CALLED AS CONTAINE RUNTIME
+INSIDE A POD YOU WILL DEFINITELY HAVE CONTAINER  
+
+Kubelet :which is actual responsible for running your application and if application is not running or
+if your pod is not running then kubelet informs one of the component to control plane that okay something is going to wrong  
+
+Kubelet  is basically responsible for creating a pod and it will basically ensure that the pod is always in the running state 
+if it is not then it take the necessary action using the kubernate control plane  
+
+KUBE PROXY:
+
+THIS NETWORKING IS MANDATORY FOR RUNNING YOU POD EVEN HERE IN K8S YOU HAVE SOMETHING CALLED AS KUBE PROXY
+KUBE PROXY BASICALLY PROVIDES YOU NETWORKING LIKE EVERY POD THAT YOU ARE CREATING EVERY CONTAINER THAT YOU ARE CREATING IT HAS TO BE ALLOCATED WITH IP ADDRESS 
+AND IT HAS TO BE PROVIDED WITH A LOAD BALANCING CAPABILITIES  
+WHEN YOU SCALE YOUR POD instead of one replicas if you have two replicas to you pod then there has to be a component which says ok 
+send 50 request the here and send 50% request here so that is taken care by kube proxy  
+
+KUBE PROXY :which provides networking IP address and also load balanceing (default load balancing  capabilities in k8s)
+Kube-proxy : kube proxy is basically responsible for the networking 
+like generating the IP address or laod balancing basically it uses IP table on your linux machine 
+Ok kube-proxy uses iptable for networking related configuration  	
+
+RUNTIME :
+Finally you have container run time which actually run your containe
+Container runtime which is responsible for running your container  
+
+
+Let's move to Controle plane or the master component  
+
+kube-API –SERVER :
+
+What is purpose of API –SERVER  
+Api-server is a component that basically exposes your Kubernetes , Kubernetes has to be exposed to the external world  
+Api-server takes all request form external world  
+Let's say user is trying to create pod and he tried to access the API-Server and from the API server  
+API-Server decides that okay node 1 is free but to schedule the a component on node 1  
+You have component in Kubernetes is that is called as SCHEDULER  
+
+Kube-apiserver is the only component that interacts directly with the etcd data store.
+
+
+SCHEDULER:
+
+Scheduler responsible for scheduling your pod or scheduling your resources on Kubernetes  
+
+ETCD  
+IS BASICALLY A KEY-VALUE STORE AND THE ENTIRE K8S CLUSTER INFORMATION IS STORED AS  OBJECTS ARE KEY-VALUE PAIRS INSIDE THE ETCD  
+WIHT OUT ETCD YOU DON'T HAVE THE CLUSTER RELATED INFORMATION 
+
+CONTROLLER-MANAGER : 
+REPLICASET IS MAINTAINING STATE OF YOUR KUBENRATE  
+Which is manager for your Kubernetes inbuilt controller   
+
+
+==========================================================
+
+1. kubernate by itslef doing container orchastration 
+what is kubernate doing 
+2. kubenrate is doing container orchastration and container management , actual work still being done by  container 
+
+
+
