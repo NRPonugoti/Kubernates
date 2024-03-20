@@ -1,0 +1,27 @@
+to get details of version
+#kubectl api-resources 
+
+#kubectl get all 
+
+to show all nodes 
+#kubectl get nodes -o wide / #kubectl get nodes -A 
+To display all pods 
+#kubectl get pods 
+
+to view the pod 
+#kubectl describe pod nameof the pod 
+
+create deployment for nginx 
+#kubectl create deployment nginx --name nginx:latest --replicas 7 
+to view deployment in yaml structure 
+#kubectl edit  nam_of_deployment 
+
+
+To delete the cluster 
+#kubectl delete cluster  cluster-name –region us-east-1
+
+execute the yaml file
+#kubectl create –f filename 
+If you are running file 2nd time,  user “APPLY”
+#kubectl apply –f filename 
+-apply ---- update or create 
