@@ -1,0 +1,30 @@
+Create K8S Dash board :
+
+git clone https://github.com/irsols-devops/kubernetes-dashboard.git
+ls
+kubectl apply -f kubernetes-dashboard
+kubectl get pod -A   (or)  kubectl get pods --all-namespaces -o wide
+kubectl get svc -n kubernetes-dashboard   (or)  kubectl get services --all-namespaces -o wide
+cd kubernetes-dashboard
+chmod +x get-dash.sh
+./get-dash.sh 
+here will get port number , not getting here 
+then 
+#kubectl get svc -n kubernetes-dashboard 
+we can see the PORT: 443:30898/TCP 
+then get Ipaddress master system along woth port number 
+https:52.91.122.233:30898
+then asking token here 
+
+./get-dash.sh
+we could no find token then get kubeconfig 
+then go to root user 
+$find / -name config
+/root/kube/config
+then 
+cd .kube
+then 
+$ls 
+$cat config 
+copy this info notepod and save it as file 
+still getting an error , need to find out 
