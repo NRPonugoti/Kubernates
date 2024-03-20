@@ -1,0 +1,94 @@
+https://www.gremlin.com/community/tutorials/how-to-create-a-kubernetes-cluster-on-ubuntu-16-04-with-kubeadm-and-weave-net
+https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/
+
+
+Create Master Node Of EC2 instance 
+
+then run below commands on EC2 machine 
+
+sudo apt-get update
+sudo apt-get install -y apt-transport-https ca-certificates curl gpg
+sudo mkdir -p -m 755 /etc/apt/keyrings
+curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.29/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.29/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
+sudo apt-get update
+sudo apt-get install -y kubelet kubeadm kubectl docker.io
+
+kubeadm -it will make your cluster up and running 
+kubelet  : creating contianer inside pod and make comminication b/w master and worker node 
+
+then 
+#kubeadm init  //initilize your cluster 
+then read message and folow instructions 
+#mkdir -p $HOME/ .kube 
+sudo cp -i /etc/kubernates/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config   // config file like certificate 
+
+alrernativly , if your are root user , you can run 
+export KUBECONFIG=/etc/kubernates/admin.conf
+
+#kubectl get nodes 
+
+then ri=un below commands 
+
+kubectl apply -f https://github.com/weaveworks/weave/releases/download/v2.8.1/weave-daemonset-k8s.yaml
+
+then 
+#kubectl get nodes 
+then 
+#kubectl get pods -A 
+
+create nginx deplotment 
+#kubectl create deployment nginx --image=nginx 
+#kubectl create service nodeport nginx --tcp 80:80 
+#kubect get pods -A
+pod is pending , why ?
+#kubectl describe pod name_of_pod 
+taint issue that's why pod is notworking 
+taint mainly scheduler it has failed 
+scheduler is responsible to schedule a pod on particuler node 
+but there is no worker node that's why it has taint 
+
+remove taint 
+#kubectl taint nodes  --all node-role.kubernates.io/control-plane-
+
+#kubectl get pods -A 
+#kubectl get svc 
+
+then 
+take public ip of master node and search in browser 
+#ipaddress:80
+
+#kubectl delete pod name_of_pod 
+#kubectl delete deploy nginx 
+#kubectl delete svc nginx 
+
+network plugin 
+Calico , Flannel and Weave Net 
+
+Create Node on EC@ instance :
+sudo apt-get update
+sudo apt-get install -y apt-transport-https ca-certificates curl gpg
+sudo mkdir -p -m 755 /etc/apt/keyrings
+curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.29/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.29/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
+sudo apt-get update
+sudo apt-get install -y kubelet kubeadm kubectl docker.io
+
+generate the token from master then copy the token into worker node 
+run this command on master 
+$kubeadm token create --print-join-command 
+then 
+copy the token and paste worker machine 
+
+then go master 
+#kubect get nodes 
+
+list of API Versions :
+#kubectl api-version 
+
+https://digitalvarys.com/install-kubernetes-cluster-with-kubeadm-and-ansible-ubuntu/
+
+https://matthewpalmer.net/kubernetes-app-developer/articles/kubernetes-apiversion-definition-guide.html
+
+https://devopscube.com/kubernetes-architecture-explained/
