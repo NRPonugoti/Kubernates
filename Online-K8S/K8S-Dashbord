@@ -26,5 +26,8 @@ cd .kube
 then 
 $ls 
 $cat config 
-copy this info notepod and save it as file 
+copy this info notepod and save it as admin.conf 
 still getting an error , need to find out 
+
+#kubectl config view 
+
