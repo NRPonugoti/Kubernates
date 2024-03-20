@@ -14,6 +14,14 @@ if your pod is not running then kubelet informs one of the component to control 
 Kubelet  is basically responsible for creating a pod and it will basically ensure that the pod is always in the running state 
 if it is not then it take the necessary action using the kubernate control plane  
 
+kubelet is agent that runs on each node in the cluster 
+the agent is resposible for making sure that contianers are running on the nodes as expected 
+the worker nodes have the kubelet agent
+
+that is responsible for interacting with a master
+to provide health information of the worker node
+and carry out actions requested by the master on the worker nodes.
+
 KUBE PROXY:
 
 THIS NETWORKING IS MANDATORY FOR RUNNING YOU POD EVEN HERE IN K8S YOU HAVE SOMETHING CALLED AS KUBE PROXY
@@ -49,15 +57,20 @@ Kube-apiserver is the only component that interacts directly with the etcd data 
 SCHEDULER:
 
 Scheduler responsible for scheduling your pod or scheduling your resources on Kubernetes  
-
+scheduler is responsble for distributing work or containers across multiple nodes , it looks for newly created containers 
+and assignthem to nodes 
 ETCD  
 IS BASICALLY A KEY-VALUE STORE AND THE ENTIRE K8S CLUSTER INFORMATION IS STORED AS  OBJECTS ARE KEY-VALUE PAIRS INSIDE THE ETCD  
 WIHT OUT ETCD YOU DON'T HAVE THE CLUSTER RELATED INFORMATION 
+etcd is a distributed , reliable key value store used by kubernates to store all data used to manage the cluster 
+etcd is responsible for implementing locks within the cluster to ensure that there are no conflict b/w masters 
+
 
 CONTROLLER-MANAGER : 
 REPLICASET IS MAINTAINING STATE OF YOUR KUBENRATE  
 Which is manager for your Kubernetes inbuilt controller   
-
+controller are the brain behind orchestration , they are responsbile for noticing and responding when nodes , containers or endpoint goes down 
+controllers make decision to bring up new contianers in shuch cases 
 
 ==========================================================
 
