@@ -1,0 +1,20 @@
+NAMESPACE WILL HELP YOU TO CREATE THE LOGICLA BOUNDRIES, YOU CAN RESTRUCT THE ACCESS OTHERS BY CREATING YOUR OWN NAMESPACES 
+
+$kubectl get namespace 
+$kubectl get ns 
+$kubectl get all
+
+$kubectl get all --namespace default 
+
+Create your own namespace 
+#kubectl create namespace dev 
+then 
+#kubectl get ns 
+then create deployment 
+#kubectl create deployment demo-nginx  --image=nginx  --replicas=2 --port=80 --namespace dev 
+then
+
+#kubectl get all  --->this command pointing to default name space 
+#kubectl get all --namespace dev 
+#kubectl describe podname --namespace 
+
