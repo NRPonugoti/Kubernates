@@ -1,0 +1,15 @@
+Controller they are processes that monitor kubernates object and and respond accordingly 
+
+1. Replication Controller :
+So what is a replica and why do we need a replication controller?
+
+Let's go back to our first scenario where we had a single pod running our application.
+What if for some reason our application crashes and the pod fails?
+Users will no longer be able to access our application.
+
+To prevent users from losing access to our application,
+we would like to have more than one instance or pod running at the same time.
+That way if one fails we still have our application running on the other one.
+  
+The replication controller helps us run multiple instances of a single pod in the Kubernetes cluster
+thats providing high availability 
