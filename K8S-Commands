@@ -1,8 +1,16 @@
 to get details of version
 #kubectl api-resources 
 
-#kubectl get all 
+#kubectl get all
+==============================================
+POD Commands :
+#kubectl run nginx --image=nginx
+#kubectl get pods 
+or
+#kubectl get po 
 
+
+--------------------------------
 to show all nodes 
 #kubectl get nodes -o wide / #kubectl get nodes -A 
 To display all pods 
