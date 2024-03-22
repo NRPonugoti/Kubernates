@@ -8,7 +8,7 @@ POD Commands :
 #kubectl get pods 
 or
 #kubectl get po 
-
+#kubectl describe pod name_of_pod
 
 --------------------------------
 to show all nodes 
