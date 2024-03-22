@@ -1,0 +1,124 @@
+Kubernetes – services -NodePort 
+We can expose an application running on set of PODs using different types of services available in k8s 
+1.clusterIp
+Cluster Ip is specific to a cluster which means it is boundary is only cluster 
+Inside Kubernetes cluster you can access your ports with clusterIP if you have created a clusterIP service for your port 
+2.NodePort
+Using nodes port whatever it is exposed using that port , you will able to access your application externally via internet 
+3.Loadbalancer 
+This is specifically for cloud providers like aws 
+
+NodePort Service :
+To access our application outside of k8s cluster , we can use NodePort service 
+Expose the service on each worker Nodes Ip at static port nothing but Nodeport 
+A cluster IP service , to which the NodePort service routes , is automatically created when ever Nodeport service is created 
+Port range 30000-32767
+You have K8s cluser  with Worker Node 
+Then deployed your pod 
+Created POD 
+Then we have  created a NodePort Service 
+What hppens 
+In NodePort service you will have something called every service will have its own port so that is nothing but ClusterIp service Port 
+So your pod port is 80 and your cluster ip service port is also 80 
+Next thing is target port 
+So in the service you will have the definition called port which is 80 which is nothing but the service port and target Port is nothing but container port in a pod 
+So this is nothing but your respective pod port so this is pod port 80 
+Next thing is worker NodePort, this is nothing but what ever starts from 30,000 to 32,767
+
+NodePort = worker NodePort (worker node port)
+targetPort = container port in pod 
+port =cluster service port  
+
+
+Practice :
+
+Ports: 
+Port: port on which node port service listens in k8s cluster internally ( clusterIP)
+targetPort : we define container port here on which our application is running 
+NodePort : Worker NodePort on which we can access our application 
+
+Create pod :
+#kubectl run <pod-name>  --image <container-name>  --generator=run-pod/v1
+Expose pod as service
+#kubectl expose pod <pod-name> --type=NodePort –port=80 –name =<service-name>
+See all service 
+#kubectl get svc 
+#kubectl get nodes -o wide 
+Access the application using public IP 
+http://<node1-public-ip>:<Node-port>
+•	mportant Note about: target-port
+o	If target-port is not defined, by default and for convenience, the targetPort is set to the same value as the port field.
+# Below command will fail when accessing the application, as service port (81) and container port (80) are different
+kubectl expose pod my-first-pod  --type=NodePort --port=81 --name=my-first-service2     
+
+# Expose Pod as a Service with Container Port (--taret-port)
+kubectl expose pod my-first-pod  --type=NodePort --port=81 --target-port=80 --name=my-first-service3
+
+# Get Service Info
+kubectl get service
+kubectl get svc
+
+# Get Public IP of Worker Nodes
+kubectl get nodes -o wide
+
+Dump Pod logs :
+#kubectl logs <pod-name>
+Stream pod logs with -f 
+#kubectl logs -f <pod-name>
+Step-05: Interact with a Pod
+Verify Pod Logs
+# Get Pod Name
+kubectl get po
+
+# Dump Pod logs
+kubectl logs <pod-name>
+kubectl logs my-first-pod
+
+# Stream pod logs with -f option and access application to see logs
+kubectl logs <pod-name>
+kubectl logs -f my-first-pod
+•	Important Notes
+o	Refer below link and search for Interacting with running Pods for additional log options
+o	Troubleshooting skills are very important. So please go through all logging options available and master them.
+o	Reference: https://kubernetes.io/docs/reference/kubectl/cheatsheet/
+Connect to Container in a POD
+•	Connect to a Container in POD and execute commands
+# Connect to Nginx Container in a POD
+kubectl exec -it <pod-name> -- /bin/bash
+kubectl exec -it my-first-pod -- /bin/bash
+
+# Execute some commands in Nginx container
+ls
+cd /usr/share/nginx/html
+cat index.html
+exit
+•	Running individual commands in a Container
+kubectl exec -it <pod-name> env
+
+# Sample Commands
+kubectl exec -it my-first-pod env
+kubectl exec -it my-first-pod ls
+kubectl exec -it my-first-pod cat /usr/share/nginx/html/index.html
+
+
+Step-06: Get YAML Output of Pod & Service
+Get YAML Output
+# Get pod definition YAML output
+kubectl get pod my-first-pod -o yaml   
+
+# Get service definition YAML output
+kubectl get service my-first-service -o yaml   
+Step-07: Clean-Up
+# Get all Objects in default namespace
+kubectl get all
+
+# Delete Services
+kubectl delete svc my-first-service
+kubectl delete svc my-first-service2
+kubectl delete svc my-first-service3
+
+# Delete Pod
+kubectl delete pod my-first-pod
+
+# Get all Objects in default namespace
+kubectl get all
