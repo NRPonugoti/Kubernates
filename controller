@@ -30,3 +30,93 @@ Replica set requires a selector definition.
 The selector section helps the replica set identify
 
 what pods fall under it
+
+difference selector section in replication controller/ReplicaSet
+selector section helps the replica set identify what pod fall under it 
+replcaSet can alos manage pods that were not created as part of the replicaSet creation 
+example:
+were pods created before the creation of the replicaSet that match labels specified in the selector 
+the replica set will also take those pods into consideration when creating the replicas 
+
+Selector is major diffrence b/w RC and RS 
+
+Why do lable our pods and objects in Kubenrates ?
+say we deploy 3 instances of our front end web application as 3 Pods 
+we would like to create a replication controller or replica set to enasure that we have 3 active pods at any time 
+yes, that is one of use case of replicaset 
+we can use it to monitor existing pods if you have them already created as it is in this example 
+in case there were not created ,the replicaSet will create them for you 
+the role of replicaSet is to monitor the pods and if any of them were to fail ,deploy new ones 
+
+
+how does the replicaset know what podsto monitor ?
+there could be 100 pods in the cluster running different application
+this is where labeling our pods during creation , we could now provide the these labels as a filter for replicaSet under the selector section
+we use the match lables filter and provide the same lable that we used while creating the pods 
+
+
+2 Pods already exist in K8S cluster now we need to create ReplicaSe defination file 
+do we need tempplate section ?
+yes we need template section , if one of the pod will fail , replicaSet will check template section then will recreate number of desire pod 
+
+Scale :
+update 3 to 6 replicaSet
+update replicas from 3 to 6 in replicaSet-defination.yaml
+then 
+#kubectl replace -f replicaSet-defination.yaml
+or
+#kubectl scale --replicas=6 -f replicaSet-defination.yaml
+or
+#kubectl scale --replica=s6 replicaSet name_of_replicaset  
+
+#kubectl explain replicaSet
+
+#kubectl edit rs name_of_replicaSet
+
+replication controller :
+apiVersion:
+kind:
+metadata:
+  name: myapp-rc
+  label:
+    app: myapp
+    type: front-end
+
+spec:
+  replicas: 2
+  template:
+    metadata:
+      name: myapp-rc
+    label:
+      app: myapp
+      type: front-end
+    spec:
+      containers:
+        - name:nginx-conatiner
+          image: nginx 
+
+ReplicaSet:
+
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: myapp-rs
+  label:
+    app: myapp
+    type: front-end
+
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      type: front-end 
+  template:
+    metadata:
+      name: myapp-rc
+    label:
+      app: myapp
+      type: front-end
+    spec:
+      containers:
+        - name:nginx-conatiner
+          image: nginx 
