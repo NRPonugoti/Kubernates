@@ -9,6 +9,19 @@ POD Commands :
 or
 #kubectl get po 
 #kubectl describe pod name_of_pod
+which nodes are those pods placed 
+#kubectl get pods -o wide 
+delete pod 
+#kubectl delete pod name_of_pod
+
+to generate yaml file 
+#kubect run redis --image=redis123 --dry-run=client -o y > redis.yaml
+
+edit the pod 
+#kubectl edit pod name_of_pod 
+
+If you are not given a pod definition file, you may extract the definition to a file using the below command:
+#kubectl get pod <pod-name> -o yaml > pod-definition.yaml
 
 --------------------------------
 to show all nodes 
