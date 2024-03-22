@@ -13,3 +13,20 @@ That way if one fails we still have our application running on the other one.
   
 The replication controller helps us run multiple instances of a single pod in the Kubernetes cluster
 thats providing high availability 
+
+Even if you have a single pod the replication controller can help by automatically bringing up a new pod
+when the existing one fails.
+
+the replication controller ensures that the specified number of pods are running at all times
+even if it's just one or hundred
+
+
+However, there is one major difference
+
+between replication controller and replica set.
+
+Replica set requires a selector definition.
+
+The selector section helps the replica set identify
+
+what pods fall under it
