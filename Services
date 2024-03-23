@@ -1,3 +1,13 @@
+Service Advantages :
+
+1.service act as service discovery ,How service Discovery pods 
+if service track of your pods using lable and selector instead og IP Address 
+2.Service act as load balancing , why it is act as load balancing 
+in K8s we have componet as kubeproxy 
+3. expose to outside world 
+
+
+
 Kubernetes – services -NodePort 
 We can expose an application running on set of PODs using different types of services available in k8s 
 1.clusterIp
