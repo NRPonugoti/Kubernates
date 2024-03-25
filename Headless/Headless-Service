@@ -1,0 +1,38 @@
+External Name/DNS CNAME Record  Is  Headless service 
+What is stateful and stateless application?
+When every we work any application, two types 
+1.	Stateful: any application preserved the state is called statefull application 
+ state preserved , logout ---- 1 year ----place you left  =======my-sql ,mongoDB
+Online platform where people register for rental cabs ---100-----preserve
+Stateful application all about below 
+When you deployment 
+
+
+
+
+1.State full is help us that state preserved for ndoes , if node will be crash ,data will be store at temporary location 
+If another node will be created then node will point to temporary location and get the data of crashed node 
+Which pod will be crashed only that pod will be created by stateful
+When we use deployment it cannot happen the Sequence execution, development go every pod and do it every place 
+
+StatefulSets
+StatefulSet is the workload API object used to manage stateful applications.
+
+Manages the deployment and scaling of a set of Pods, and provides guarantees about the ordering and uniqueness of these Pods.
+
+2.	Stateless: any application does not preserved state is called stateless application 
+no track is kept, start fresh===== ubentu OS, nginx 
+
+Using StatefulSets
+StatefulSets are valuable for applications that require one or more of the following.
+
+Stable, unique network identifiers.
+Stable, persistent storage.
+Ordered, graceful deployment and scaling.
+Ordered, automated rolling updates.
+Limitations
+The storage for a given Pod must either be provisioned by a PersistentVolume Provisioner based on the requested storage class, or pre-provisioned by an admin.
+Deleting and/or scaling a StatefulSet down will not delete the volumes associated with the StatefulSet. This is done to ensure data safety, which is generally more valuable than an automatic purge of all related StatefulSet resources.
+StatefulSets currently require a Headless Service to be responsible for the network identity of the Pods. You are responsible for creating this Service.
+StatefulSets do not provide any guarantees on the termination of pods when a StatefulSet is deleted. To achieve ordered and graceful termination of the pods in the StatefulSet, it is possible to scale the StatefulSet down to 0 prior to deletion.
+When using Rolling Updates with the default Pod Management Policy (OrderedReady), it's possible to get into a broken state that requires manual intervention to repair
