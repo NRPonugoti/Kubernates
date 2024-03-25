@@ -6,6 +6,24 @@ if service track of your pods using lable and selector instead og IP Address
 in K8s we have componet as kubeproxy 
 3. expose to outside world 
 
+Service Deos two thing for us 
+it will expose our container to out side world 
+it is act as load balancer , it is distrubte workload according traffic 
+
+4 types of Service :
+CLusterIP: it is default IP and it is work for internal communication 
+NodePort: 
+ can be used on premision and clould but not recomanded on clould
+limition:
+port range 300000 to 32767
+LoadBalancer:
+DNSCNAME record(EXTERNAL NAME): 
+bypassogn service and directly reaching the pod 
+problem:
+security 
+today we are accing certain name then pod fail then change name of pod then it will be challange for this 
+benifities:
+used to directly reach the pod , they can be security issue 
 
 
 Kubernetes – services -NodePort 
