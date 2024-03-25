@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+    name: nginx-rules
+spec:
+    rules:
+        - host: nginx-official.example.com  // sub domain routing 
+          http:
+            paths:
+                - path: /
+                  pathTye: Exact
+                  backend:
+                    service:
+                        name: nginx-official-service
+                        port:
+                            number: 80 
+        - host: nginx-official.example.com
+          http:
+            paths:
+                - path: /
+                  pathTye: Exact
+                  backend:
+                    service:
+                        name: magical-nginx-service
+                        port:
+                            number: 80 
