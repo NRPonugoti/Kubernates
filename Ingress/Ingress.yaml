@@ -24,3 +24,18 @@ spec:
                         name: magical-nginx-service
                         port:
                             number: 80 
+======================================================
+#kubectl get ingress 
+#kubectl describe ingress ingress-ruls
+
+
+So you don’t have domaine name that’s why I could manage withn the cluster level
+
+#sudo nano /etc/hosts
+endof the file , enter below 
+35.224.96.72  nginx-offical.example.com
+35.224.95.71  magical.nginx-.example.com
+
+thank save the file 
+curl magical.nginx-.example.com
+
