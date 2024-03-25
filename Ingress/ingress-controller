@@ -1,0 +1,72 @@
+You will have set of pods which will be exposed via service and then we will have another set of pods which will be exposed via another service  
+when we will do service exposer the problem is still have ipaddress follow with port name , when you go and give the detail someone , they don’t understand 
+
+That’s why you will give human readable name that is provided the ingress controller 
+And also we try to provide the load balancer when you talk in term of ingress controller 
+Nginx ingress controller 
+
+
+Ingress support path based routing 
+
+First go and buy DNS name 
+DNS resolver will help to convert into human readble name to Ipaddress and ip address to human readable name 
+
+
+Nginx ingress controller :
+It is also checking ssl and tls certificate which is valid or not, validating everything is here ans distribute the load as per url here 
+It is act as load balancer 
+It is act as security enhancer 
+It is act as reverse proxy 
+
+1.	DNS Resolver or Server : 
+You type in browser www.google.com  DNS server is actually convert that google.com into relevant IP address 
+
+Login Google cloud 
+#kubectl delete all –all 
+I am trying to achieve below set up 
+
+
+YAML:
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: nginx-officila-deployemnt
+spec:
+    replicas: 1
+    selector:
+        matchLable:
+            app: nginx-official
+    template:
+        metadata:
+            lables: 
+                app: nginx-official
+        spec: 
+            containers:
+                - name: nginx-official
+                  image: nginx:latest
+                  ports:
+                    -containerPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: nginx-officila-deployemnt
+spec:
+    type: LoadBalancer
+    selector:
+        app: nginx:latest
+    Port:
+        - protocal: tcp
+          port: 80
+=============================
+
+
+
+
+
+
+
+
+
+
+
