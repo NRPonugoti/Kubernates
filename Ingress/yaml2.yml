@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: magical-nginx-deployemnt
+spec:
+    replicas: 1
+    selector:
+        matchLable:
+            app: magical-nginx
+    template:
+        metadata:
+            lables: 
+                app: magical-nginx
+        spec: 
+            containers:
+                - name: magical-nginx
+                  image: vikas24775/magicalnginx:latest
+                  ports:
+                    -containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: magical-nginx-deployemnt
+spec:
+    type: LoadBalancer
+    selector:
+        app:  magical-nginx
+    Port:
+        - protocal: tcp
+          port: 80
+          
