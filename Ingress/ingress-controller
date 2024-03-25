@@ -5,6 +5,10 @@ That’s why you will give human readable name that is provided the ingress cont
 And also we try to provide the load balancer when you talk in term of ingress controller 
 Nginx ingress controller 
 
+Ingress Adv: 
+
+Ingress act as Load balancer 
+Ingress has path based routing logic  and it has sub domain 
 
 Ingress support path based routing 
 
