@@ -26,42 +26,6 @@ Login Google cloud
 I am trying to achieve below set up 
 
 
-YAML:
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-    name: nginx-officila-deployemnt
-spec:
-    replicas: 1
-    selector:
-        matchLable:
-            app: nginx-official
-    template:
-        metadata:
-            lables: 
-                app: nginx-official
-        spec: 
-            containers:
-                - name: nginx-official
-                  image: nginx:latest
-                  ports:
-                    -containerPort: 8080
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-    name: nginx-officila-deployemnt
-spec:
-    type: LoadBalancer
-    selector:
-        app: nginx:latest
-    Port:
-        - protocal: tcp
-          port: 80
-=============================
-
-
-
 
 
 
