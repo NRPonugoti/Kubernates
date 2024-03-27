@@ -1,0 +1,3 @@
+https://matthewpalmer.net/kubernetes-app-developer/articles/kubernetes-ingress-guide-nginx-example.html
+
+https://dev.to/kpemmaraju/setting-up-an-nginx-ingress-controller-on-pmkft-1mlk
