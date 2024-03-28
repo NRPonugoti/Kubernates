@@ -1,0 +1,19 @@
+
+If you want to run our pods only once like taking DB backup, sending email in a batch such process should not be running continuously
+They will run just for a certain amount of time and they run at particular times not continuously 
+For this process having controller like deployment is a bad idea as it makes sure the pod runs continuously 
+How to run batch jobs once and schedule them at particular intervals using jobs and cronjobs with complete hands on 
+K8S job is created it creates Pod with image given manifest this image can be any application that holds the logic of our use cases 
+If there are errors in running the application in the pod because of any reason like memory ,CPU issue etc , the Job retrace for a given number of times by recreating the pods 
+The number of retrace can be given with back off limit for example if we set back of limit to 3 and the POD fails kubenrate will create a new pod to retrace the task if the new pod also fails kubernates will create another pod and so on until there attempts have been made if the jobs still fails after 3 attempts kubernates will mark the job as failed with back off limit exceeded
+Back off limit default=6 if you don’t set it 
+ttlSecondsAfterFinished =60 //delete job after 60 seconds when job is 
+ActiveDeadlineSeconds: 50   // we define maximum how long a job should run  if  this job will run more than this period , the job will be marked as incomplete with deadline exceeded 
+ActivedeadlineSeconds takes precedence  over backofflimit 
+If there is no errors in POD , the Job controller will check the number of pod completions this we can give in the job manifest with this we are asking the job to run our pod atleaset these many number of times 
+Completion in the job = similar to replicas in deployment 
+Specified number of pods reached the job will marked as completed when we give completion greater then 1 by default pods are created one by one sequentially 
+But we can create the PODS parallely by setting the parallelism
+For example parallelism =2 and completions=3, two  pods  will be created for first time once they are completed another one Pod will be created this is lifecycle of job 
+These jobs executed only once that means when job is created the pod is created and the execution runs in the pod and that Pod will be completed but sometimes we want to run a job on scheduled basis like DB Back up 
+Kuburnate job and cron jobs are useful for automating and managing a wide varity of tasks in a containerized env
