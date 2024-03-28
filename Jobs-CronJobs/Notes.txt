@@ -1,4 +1,10 @@
 
+Jobs and cronjobs are useful for automating and managing wide varity of tasks in containerized env 
+Use cases :
+DB Backups
+log Rotation 
+data Processing 
+
 If you want to run our pods only once like taking DB backup, sending email in a batch such process should not be running continuously
 They will run just for a certain amount of time and they run at particular times not continuously 
 For this process having controller like deployment is a bad idea as it makes sure the pod runs continuously 
