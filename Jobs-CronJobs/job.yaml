@@ -6,6 +6,8 @@ spec:
   backoffLimit: 5
   activeDeadlineSeconds: 100
   ttlSecondsAfterFinished: 60 # delete job after 60 seconds
+  completions: 3
+  parallelism: 2
   template:
     spec:
       containers:
