@@ -1,0 +1,60 @@
+to show users in kubenrates 
+#kubectl config get-contexts
+
+serviceaccount:
+In Kubernetes, a ServiceAccount is an object that provides an identity for processes that run in a Pod. 
+Each pod that runs in a Kubernetes cluster has its own unique identity, which is represented by a ServiceAccount.
+ServiceAccounts are used by pods to authenticate and authorize their interactions with the Kubernetes API server and other resources within the cluster.
+
+Here are some key points about ServiceAccounts:
+
+Identity: ServiceAccounts provide an identity for pods running within the Kubernetes cluster. 
+This identity is used to authenticate the pod when it makes requests to the Kubernetes API server.
+
+API Access: ServiceAccounts are associated with access tokens that pods can use to authenticate themselves when making requests to the Kubernetes API server.
+These tokens are automatically mounted into the pod's filesystem, usually at a well-known path like /var/run/secrets/kubernetes.io/serviceaccount/token.
+
+Role-based access control (RBAC): Kubernetes uses RBAC to control access to cluster resources. ServiceAccounts can be assigned roles or cluster roles that define what actions they are allowed to perform within the cluster.
+This allows administrators to control the permissions of pods running within the cluster.
+
+Namespaced: ServiceAccounts are namespaced resources, meaning they are scoped to a specific namespace within the Kubernetes cluster.
+This allows different namespaces to have different ServiceAccounts with different permissions.
+Default ServiceAccount: Each namespace in Kubernetes has a default ServiceAccount.
+If a pod does not specify a ServiceAccount explicitly, it will use the default ServiceAccount for the namespace in which it is deployed.
+
+Custom ServiceAccounts: In addition to the default ServiceAccount, 
+users can create custom ServiceAccounts with specific roles and permissions tailored to the needs of their applications.
+
+ServiceAccounts play a crucial role in the security and access control mechanisms of Kubernetes, 
+allowing administrators to control and manage the interactions between pods and the Kubernetes API server.
+
+#kubectl create serviceaccount readonlyuser
+Create cluster role, say 'readonlyuser'.
+#kubectl create clusterrole readonlyuser --verb=get --verb=list --verb=watch --resource=pods
+
+kubectl create clusterrole: This is the main command to create a ClusterRole.
+readonlyuser: This is the name of the ClusterRole being created.
+--verb=get --verb=list --verb=watch: These flags specify the verbs or actions that are allowed for the ClusterRole. 
+In this case, it allows get, list, and watch operations.
+--resource=pods: This flag specifies the Kubernetes resource to which the permissions apply. In this case, it applies to pods.
+
+After running this command, the readonlyuser ClusterRole will be created with the specified permissions.
+You can then bind this ClusterRole to users, groups, or ServiceAccounts in your cluster to grant them the defined permissions.
+
+Create cluster role binding, say 'readonlyuser'.
+#kubectl create clusterrolebinding readonlyuser --serviceaccount=default:readonlyuser --clusterrole=readonlyuser
+
+Now get the token from secret of ServiceAccount we have created before. we will use this token to authenticate user.
+
+TOKEN=$(kubectl describe secrets "$(kubectl describe serviceaccount readonlyuser | grep -i Tokens | awk '{print $2}')" | grep token: | awk '{print $2}')
+Now set the credentials for the user in kube config file. I am using 'vikash' as username.
+
+kubectl config set-credentials vikash --token=$TOKEN
+
+Now Create a Context say podreader. I am using my clustername 'kubernetes' here.
+
+kubectl config set-context podreader --cluster=kubernetes --user=vikash
+
+Finally use the context .
+
+kubectl config use-context podreader
