@@ -1,0 +1,15 @@
+so far we define resoueces in container level every time , if we have 5 container/pods , 
+we should define resources information on each pods , it is defficult 
+
+so we need to define Request Range in NameSpace 
+
+we have namespace Dev here and you have both the backend and then front end application 
+we will have limit range you will be able to conrtrol your CPU and then memory 
+
+so in 2 ways , one default and the other is min and max so you can assingit default CPU and then default memory for the contianer 
+present in this deployment 
+for all containers present in this dev namespace 
+which means when ever you apply the default option limit range , so you can have hat default CPU and Memory associated for those 
+respective contianers present in this name space 
+
+so you really don't need to go ahead and then define resouce section in your respective deployment 
