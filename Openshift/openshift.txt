@@ -1,0 +1,143 @@
+Launch new Instance :ubuntu 20.04
+t2.medium
+cinfiguration GB:25 
+
+Step 4: Update system by using following commands
+
+sudo apt update
+sudo apt upgrade
+Step 5: In order to run all OKD services in docker containers, you must first install the Docker CE on your system. The most recent version of Docker CE is available by default in the default repository for Ubuntu 20.04. You can introduce it simply by running the following command:
+
+#sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+#apt install docker 
+Step 6: Once the Docker is installed, start the Docker service and enable it to start at boot with the following command:
+
+systemctl start docker
+systemctl enable docker
+
+Step 7: You can also verify the status of the Docker service with the following command, this command show that docker is running or not
+
+systemctl status docker
+
+Download OpenShift Origin
+Step 1: The latest version of OpenShift Origin is v3.11.0. You can download it from the Git Hub repository by using the wget command and paste github repository link address.
+
+wget https://github.com/openshift/origin/releases/download/v3.11.0/openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit.tar.gz
+Step 2: Once completion of download now untar the file or extract the file by using following command
+
+tar -xvzf openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit.tar.gz
+
+
+
+Step 3: Now change the directory to the extracted directory by using cd command
+
+cd openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit
+Step 4: Copy ‘oc’ command to ‘/usr/local/bin/’ directory on the system by using following command
+
+cp oc kubectl /usr/local/bin/
+Step 5: Now check the oc installation by using following command
+
+oc version
+The following output will be shown in terminal
+
+Step 6: Next, you will need to create a new daemon.json file and allow the use of the Insecure Docker registry.
+
+nano /etc/docker/daemon.json
+When we execute this terminal open a blank terminal in that write a script
+
+{
+     "insecure-registries" : [ "172.30.0.0/16" ]
+}
+Step 7: Otherwise directly execute this command in terminal directly before going to do this execution switch to root account by using following command
+
+sudo su -
+
+Step 8: Now restart the docker to implement the changes by using following command
+
+systemctl restart docker
+Step 9: Now, start the OpenShift Origin cluster by specifying your system’s Public IP:
+
+Here i am not exploring my public ip
+
+oc cluster up --public-hostname=your-server-ip
+Once execution complete then output shown like this
+
+OpenShift server started.
+The server is accessible via web console at:
+https://ec2-.54.162.17.204-us-west-1.compute.amazonaws.com:8443
+You are logged in as:
+User: developer
+Password: <any value>
+To login as administrator:
+oc login -u system:admin
+
+
+Setup OpenShift Origin (OKD) on Ubuntu 20.04/18.04/16.04
+
+Step 1: Install Docker CE on Ubuntu
+
+Import Docker GPG key.
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/docker-archive-keyring.gpg
+Once it is imported, add Docker APT repository to your Ubuntu 18.04 system.
+
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+
+The Docker repository is now added, run the commands below to update system and install Docker CE on Ubuntu.
+sudo apt update && sudo apt install docker-ce docker-ce-cli containerd.io docker-compose-plugin
+
+Verify your Docker Engine installation.
+Add your User account to docker group.
+
+sudo usermod -aG docker $USER
+
+Step 2: Download OpenShift Origin on Ubuntu
+Download the OpenShift client utility (oc) which is used to bootstrap Openshift Origin on Ubuntu. As of this writing, the most recent release is 3.11.0 .
+wget https://github.com/openshift/origin/releases/download/v3.11.0/openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit.tar.gz
+Uncompress downloaded file.
+tar xvf openshift-origin-client-tools*.tar.gz
+Switch to created folder and copy kubectl and oc binaries to the /usr/local/bin directory.
+
+cd openshift-origin-client*/
+sudo mv  oc kubectl  /usr/local/bin/
+
+Verify installation of OpenShift client utility.
+
+$ oc version
+oc v3.11.0+0cbc58b
+kubernetes v1.11.0+d4cacc0
+features: Basic-Auth GSSAPI Kerberos SPNEGO
+
+Allow use of Insecure Docker registry.
+
+cat << EOF | sudo tee /etc/docker/daemon.json 
+ {
+     "insecure-registries" : [ "172.30.0.0/16" ]
+ }
+EOF
+
+Restart Docker service after adding the file.
+
+sudo systemctl restart docker
+
+
+Start OpenShift Origin All-in-One Server
+Start OKD server by running the following command:
+
+$ oc cluster up
+The command above will:
+
+Start OKD Cluster listening on local interface – 127.0.0.1:8443
+Start a web console listening on all interfaces at /console (127.0.0.1:8443).
+Launch Kubernetes system components.
+Provisions registry, router, initial templates, and a default project.
+There are a number of options which can be applied when setting up Openshift Origin, view them with:
+
+oc cluster up --help
+
+
+
+https://www.geeksforgeeks.org/install-openshift-in-ubuntu/
+https://www.technhit.in/installing-and-configuring-openshift-a-step-by-step-guide-for-linux-experts-with-terminal-code/
+https://computingforgeeks.com/how-to-setup-openshift-origin-on-ubuntu/
+
