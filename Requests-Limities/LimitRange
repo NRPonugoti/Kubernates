@@ -13,3 +13,8 @@ which means when ever you apply the default option limit range , so you can have
 respective contianers present in this name space 
 
 so you really don't need to go ahead and then define resouce section in your respective deployment 
+
+In YAML:
+
+Default refere to Limits under resources 
+Defaultrequest refer to requests under resources section 
