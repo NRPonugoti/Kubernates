@@ -1,0 +1,111 @@
+Kubernetes - Requests and Limits
+Step-01: Introduction
+We can specify how much each container a pod needs the resources like CPU & Memory.
+When we provide this information in our pod, the scheduler uses this information to decide which node to place the Pod on.
+When you specify a resource limit for a Container, the kubelet enforces those limits so that the running container is not allowed to use more of that resource than the limit you set.
+The kubelet also reserves at least the request amount of that system resource specifically for that container to use.
+
+
+Step-02: Add Requests & Limits
+          resources:
+            requests:
+              memory: "128Mi" # 128 MebiByte is equal to 135 Megabyte (MB)
+              cpu: "500m" # `m` means milliCPU
+            limits:
+              memory: "500Mi"
+              cpu: "1000m"  # 1000m is equal to 1 VCPU core  
+
+
+Note: when ever you go to auto scaling concept so harizontal Pod or vertical pod or cluster autoscaling when ever you enable those things 
+so request and limits really doesnot matter which means once you define these things for yuor specific which are critical and already you enable the autoscaling stuff there 
+when ever things reaches the limits automatically the cluster will do auto scale with nodes and in additionto that it wil also scale whatever the resources it is required 
+so based on the that , usually it will not have an issue 
+
+if your are using small cluster and then if you have trouble right in defining those things 
+so then obviously you need to be very carefull about what you are defining and then how much your application is going to consume 
+
+
+this is part of our container defination 
+
+
+Yaml:
+apiVersion: apps/v1
+kind: Deployment 
+metadata:
+  name: usermgmt-microservice
+  labels:
+    app: usermgmt-restapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: usermgmt-restapp
+  template:  
+    metadata:
+      labels: 
+        app: usermgmt-restapp
+    spec:
+      initContainers:
+        - name: init-db
+          image: busybox:1.31
+          command: ['sh', '-c', 'echo -e "Checking for the availability of MySQL Server deployment"; while ! nc -z mysql 3306; do sleep 1; printf "-"; done; echo -e "  >> MySQL DB Server has started";']      
+      containers:
+        - name: usermgmt-restapp
+          image: stacksimplify/kube-usermanagement-microservice:1.0.0
+          ports: 
+            - containerPort: 8095           
+          env:
+            - name: DB_HOSTNAME
+              value: "mysql"            
+            - name: DB_PORT
+              value: "3306"            
+            - name: DB_NAME
+              value: "usermgmt"            
+            - name: DB_USERNAME
+              value: "root"            
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-db-password
+                  key: db-password           
+          livenessProbe:
+            exec:
+              command: 
+                - /bin/sh
+                - -c 
+                - nc -z localhost 8095
+            initialDelaySeconds: 60
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /usermgmt/health-status
+              port: 8095
+            initialDelaySeconds: 60
+            periodSeconds: 10   
+          resources:
+            requests:
+              cpu: "500m" 
+              memory: "128Mi"
+            limits:
+              cpu: "1000m"
+              memory: "500Mi"
+
+Step-03: Create k8s objects & Test
+# Create All Objects
+kubectl apply -f kube-manifests/
+
+# List Pods
+kubectl get pods
+
+# Watch List Pods screen
+kubectl get pods -w
+
+# Describe Pod & Discuss about init container
+kubectl describe pod <usermgmt-microservice-xxxxxx>
+
+# Access Application Health Status Page
+http://<WorkerNode-Public-IP>:31231/usermgmt/health-status
+
+# List Nodes & Describe Node
+kubectl get nodes
+kubectl describe node <Node-Name>
