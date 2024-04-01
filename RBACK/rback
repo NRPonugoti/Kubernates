@@ -84,4 +84,61 @@ so when we have multiple namespaces defining RoleBinding in every namespace is a
 there must be a way to define Roles and RoleBindings at the cluster level instead of namespace level that's where cluster Role and Cluster Role Biinding comes into the pictire 
 the only difference b/w Role binding and cluster role binding is that RoleBinding is namespaced whereas Cluster RoleBinding is at the Cluster level that means they can access the resources in any namespace 
 
+How to handle 100 of users in the cluster 
+should we give same permisions to all users by giving in this array again it's TDS Process rhat's where groups comes into the picture 
+Group is nothing but the group of users instead of defining each user seperatly we assign a user to the group and here we give the group instead of giving the user 
+
+cluster-role-binding.yaml
+Subjects:
+ - kind: Group
+   name: dev
+
+
+=================================================================================
+if my springboot and python application wants to access the same resources ,can we give our credentail in the application , No thats not safe 
+We have service account 
+Service Account are special types of users 
+Namespace is created the default service account is created in every namespace 
+Pods where our application runs use these default service Account to authenticate themselves with API sever and if we don't explicitly mention what service account to use 
+all pods will use this default service account , we can also create the custom service accountin these namespaces so we can get the service account 
+
+#kubectl get sa
+create a Servcie Account 
+#kubectl create sa  test-sa 
+Now Create a POD 
+then enter into POD 
+#kubectl exec -it kubectl-pod -- bash 
+then
+#kubectl get pods 
+then get an error forbidden 
+now we define serviceAccount at Pod level 
+Pod.yaml
+spec:
+  serviceAccount: test-sa # define customer serviceaccout here 
+then save the file and run it like above but is still getting an error because we don't attahc any role to this serviceAccount 
+
+Now We need to add the permissions to this service account 
+go to the role binding 
+rol-binding.yaml
+subjects:
+  -  kind: ServiceAccount
+     name: test-sa 
+
+then Save it 
+then 
+Create Pod 
+then
+#kubectl exec -it kubectl-pod -- bash 
+then
+#kubectl get pods 
+now get result 
+So Pods usases the ServiceAccount to access the kubernates resources 
+then come out CTRL+X
+check it
+#kubectl auth can-i create pods
+
+to check serviceaccount is having permisions or not 
+##kubectl auth can-i create pods --as="system:serviceaccount:default:test-sa"
+NO
+##kubectl auth can-i get pods --as="system:serviceaccount:default:test-sa"
 
