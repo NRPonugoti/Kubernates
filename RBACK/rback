@@ -1,0 +1,69 @@
+Authentication and Authorization
+
+Authentication  means Proves that your are valid user 
+Authorization : we will check it will pefrom particuler task , there are different models to achive this which is RBAK ,ABC , Node Authorization 
+
+Role              Access
+Developer         create, read, update
+Monitoring         read
+Admin            Create, Read, Update, Delete
+
+Create User 
+Information related to cluster is stored in the kube/config 
+# ~/.kube/config
+1. first we should generate the users private key 
+#openssl genrsa -out pavan.key 2048
+then we must create a certificate signing request for the user with the key 
+this command generate certifcate signning request 
+#openssl req -new pavan.key  -out pavan.csr -subj "/CN=pavan/O=dev/O=example.org
+CN stands for common name , it act like username 
+O act like group name , we can give multiple groups to the current user 
+-out pavan.csr = storing certificate signing request to the current folder 
+
+Now the private key and certificate siging request are ready 
+#ls | grep pavan 
+Now this certificate siging request must be signed by the certificate authority 
+they can get the certificate authority details from kubeconfig file 
+
+to sign it , to generate this command
+
+#openssl x509 -req -CA ~/.minikube/ca.crt -CAkey ~/.minikube/ca.key -CAcreateserial -days 730 -in pavan.csr  -out pavan.crt
+
+in Kube/config file 
+cluster:
+  certificate-authority:/Users/pavan.elthepu/.minikube/ca.crt
+
+
+we should add the user to the cluster with kubectl config set-credentials
+#kubectl config set-credentails pavan --client-certificate=pavan.crt --client-key=pavan-kay
+
+then , we should create a context for thsi user 
+#kubectl config set-context pavan-minikube --cluster=minikube --user=pavan --namespace=default 
+veriffy context 
+#kkubectl config get-contexts
+switch the context 
+#kubectl config use-context pavan-minikube 
+
+
+we should try to give permisions to the users 
+in kubernate , we can give the permisions to a user with roles and rolebinding 
+this is simple role monifiest file 
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata;
+  name: pod-reader
+rules:
+  - apiGroup: [""] #"" indicates the core API group 
+    verbs: ["get","watch","list"]
+    resources: ["pods","pods/log"]
+
+#kubectl apply -f role.yaml
+
+Now User and ROle both are ready , now connect bothso that user will be having these permissions 
+In ROleBinding we connect both subject and Role 
+this subject can be user or usergroup or even a service account 
+and role we defined what we can access and what we cannot access when we attach the subject and roll with RoleBinding we are attaching the permissions to the user 
+
+
+
+
