@@ -65,5 +65,23 @@ this subject can be user or usergroup or even a service account
 and role we defined what we can access and what we cannot access when we attach the subject and roll with RoleBinding we are attaching the permissions to the user 
 
 
+Note: RollBinding is nothing but connecting a user to a role 
+How to switch back to users 
+#kubectl config use-context  pavan-minikube 
+then
+#kubectl get pods 
+then go switch admin user 
+then create a name space then create nginx in the namespace 
+then switch back to pavan user 
+then 
+#kubectl get pods -n test 
+get an error
+this is because Roll and RollBinding are namespaced meaning the user will be having permisions only for the namespace where Role binding is defined if we try to access resouces in anotehr namesapce 
+we will get an error 
+so previously we define the role binding in the default namespace but we are tryying to access the resources from the test namespace in which we did not create the role Binding 
+
+so when we have multiple namespaces defining RoleBinding in every namespace is a TDS Process and Few resources like Persistent volumes are not even namespaced for which we cannot add role binding
+there must be a way to define Roles and RoleBindings at the cluster level instead of namespace level that's where cluster Role and Cluster Role Biinding comes into the pictire 
+the only difference b/w Role binding and cluster role binding is that RoleBinding is namespaced whereas Cluster RoleBinding is at the Cluster level that means they can access the resources in any namespace 
 
 
