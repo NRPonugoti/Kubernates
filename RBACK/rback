@@ -15,7 +15,7 @@ Information related to cluster is stored in the kube/config
 #openssl genrsa -out pavan.key 2048
 then we must create a certificate signing request for the user with the key 
 this command generate certifcate signning request 
-#openssl req -new pavan.key  -out pavan.csr -subj "/CN=pavan/O=dev/O=example.org
+#openssl req -new -key pavan.key  -out pavan.csr -subj "/CN=pavan/O=dev/O=example.org
 CN stands for common name , it act like username 
 O act like group name , we can give multiple groups to the current user 
 -out pavan.csr = storing certificate signing request to the current folder 
