@@ -1,3 +1,10 @@
+RBACK Do 2 thing :
+do users management access 
+you can also manage the access for your services or for your application that are running on the cluster using RBACK
+2 Primiary responsibilities of RBACK is user managemnet as well as managing the access of the services that are running on the cluster  
+
+Kuberantes says i am not managing the users but I am offload the user managemnt to identity providers 
+
 Authentication and Authorization
 
 Authentication  means Proves that your are valid user 
