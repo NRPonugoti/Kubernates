@@ -1,0 +1,18 @@
+what is kubernate distribution 
+what kubernate distribute did you use in your production if you are using any kubenrate distribution , did you manage the instalation or upgrade those distribution 
+
+Linux is open source software , they have developed distributionon top of it 
+examples : 
+Amazon Linux distributionon : Adv whenever there is security patches or any of these things they upgrade on time to time basis 
+RedHot distributionon
+CentOS distributionon
+Ubuntue distributionon
+
+Kubernate is opne source container archstration , EKS is distribution of kubenrate , they install EKS top of kubernate 
+Why distribution are popular means they provided your support 
+
+which distribution is popular and widely used it 
+Kubenrates 
+Openshift
+EKS
+AKS
