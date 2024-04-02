@@ -16,3 +16,11 @@ Kubenrates
 Openshift
 EKS
 AKS
+
+
+KOPS : Kubernate Operations 
+As devops engineer you have to deal with upgrades and modifications and deal with delation of cluster 
+all of these thing it is called as life cycle of kubenrates 
+we are using KOPS and managing kubernate systems on our envirnment 
+
+
