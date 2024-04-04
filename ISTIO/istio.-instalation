@@ -1,0 +1,38 @@
+Istio is an open-source service mesh platform that provides a way to connect, manage, and secure microservices-based applications. 
+It helps to simplify the complexity of managing microservices by providing a set of powerful features for traffic management, security, observability, and policy enforcement
+
+
+
+
+
+
+
+
+
+
+
+
+==============================================================
+Istio instalation:
+ 273  mkdir istio
+  274  cd istio
+  275  wget https://github.com/istio/istio/releases/download/1.21.0/istio-1.21.0-linux-amd64.tar.gz
+  276  ls
+  277  tar -xvzf istio-1.21.0-linux-amd64.tar.gz
+  278  ls
+  279  rm -rf istio-1.21.0-linux-amd64.tar.gz
+  280  cd istio-1.21.0
+  281  ls
+  282  pwd
+  283  export PATH=$PATH:/home/devopstraining402/istio/istio-1.21.0/bin
+  284  echo $PATH
+  285  istioctl
+  286  istioctl install
+  287  kubectl get ns
+  288  kubectl get pod -n istio-system
+  289  kubectl get sa
+  290  kubectl get sa -n istio-system
+  291  kubectl get pod -n istio-system -o wide
+  292  kubectl get all  -n istio-system -o wide
+  293  kubectl get ns 
+  294  kubectl get ns -o wide
