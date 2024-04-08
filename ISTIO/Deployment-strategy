@@ -1,0 +1,10 @@
+Rolling Update : it is update one by one , it is time consume but very little impact 
+rolling update did not use in industry 
+
+2. Blue-Green deployment :
+Parralle we come up with 2 env ,we just switch from blue to gree , incase fial you switch back 
+developemtn is very easy 
+very costly 
+
+3. Canary deployment :
+
