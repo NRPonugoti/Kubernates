@@ -1,5 +1,6 @@
 Istio is an open-source service mesh platform that provides a way to connect, manage, and secure microservices-based applications. 
-It helps to simplify the complexity of managing microservices by providing a set of powerful features for traffic management, security, observability, and policy enforcement
+It helps to simplify the complexity of managing microservices by providing a set of powerful features for traffic management, security, observability,
+and policy enforcement
 
 
 
