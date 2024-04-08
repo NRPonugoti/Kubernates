@@ -1,6 +1,18 @@
-Istio is an open-source service mesh platform that provides a way to connect, manage, and secure microservices-based applications. 
+What is Istion:
+Istio is an open-source service mesh platform that provides a way to connect, manage,
+and secure microservices-based applications. 
 It helps to simplify the complexity of managing microservices by providing a set of powerful features for traffic management, security, observability,
 and policy enforcement
+
+An Istio service mesh is logically split into a data plane and a control plane.
+In Istio, the data plane refers to the infrastructure components responsible for handling the actual network traffic between services
+The control plane manages and configures the proxies to route traffic.
+
+
+
+
+
+
 
 
 
