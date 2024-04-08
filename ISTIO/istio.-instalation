@@ -8,6 +8,7 @@ An Istio service mesh is logically split into a data plane and a control plane.
 In Istio, the data plane refers to the infrastructure components responsible for handling the actual network traffic between services
 The control plane manages and configures the proxies to route traffic.
 
+Pilot: Pilot is responsible for service discovery, traffic management, and configuring the proxies with the routing rules.
 
 
 
@@ -17,6 +18,15 @@ The control plane manages and configures the proxies to route traffic.
 
 
 
+
+With the Istio mesh in place and configured to inject sidecar Pods, we can create an application manifest files.
+
+Unlike Ingress controller Istio uses a different set of objects to expose application, Istio mesh uses a Gateway,
+which functions as a load balancer & handles incoming and outgoing HTTP/TCP connections. 
+
+The Gateway then allows for monitoring and routing rules to be applied to traffic entering the mesh. 
+The configuration that determines traffic routing is defined as a Virtual Service.
+Each Virtual Service includes routing rules that match criteria with a specific protocol and destination.
 
 
 
