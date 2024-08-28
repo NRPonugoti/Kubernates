@@ -8,7 +8,7 @@ Kuberantes says i am not managing the users but I am offload the user managemnt 
 Authentication and Authorization
 
 Authentication  means Proves that your are valid user 
-Authorization : we will check it will pefrom particuler task , there are different models to achive this which is RBAK ,ABC , Node Authorization 
+Authorization : we will check if we  will pefrom particuler task , there are different models to achive this which is RBAK ,ABC , Node Authorization 
 
 Role              Access
 ====================================
@@ -67,37 +67,69 @@ rules:
 
 #kubectl apply -f role.yaml
 
+it will give all knid of verbs [    verbs: ["get","watch","list"]]
+#kubectl api-resources -o wide | grep pod  
+
+#kubectl get roles 
+
 Now User and ROle both are ready , now connect bothso that user will be having these permissions 
 In ROleBinding we connect both subject and Role 
 this subject can be user or usergroup or even a service account 
 and role we defined what we can access and what we cannot access when we attach the subject and roll with RoleBinding we are attaching the permissions to the user 
 
 
-Note: RollBinding is nothing but connecting a user to a role 
+Note: RollBinding i s nothing but connecting a user to a role 
+then create a role-binding.yaml 
+#kubectl apply -f role-binding.yaml 
+
 How to switch back to users 
 #kubectl config use-context  pavan-minikube 
 then
 #kubectl get pods 
-then go switch admin user 
+now create a pod and let's see what will happen
+#kubectl run nginx  --image=nginx 
+getting an error : forbidden   becuase we are only given get,watch ,list permisions to paven user 
+
+then go switch mnikube user 
+#kubectl config use-context  minikube 
 then create a name space then create nginx in the namespace 
+#kubectl create ns test 
+
+in this namespace , we create pod 
+#kubectl run nginx --image=nginx  -n test
+then 
+#kubectl get po -n test 
+
+
 then switch back to pavan user 
+#kubectl config use-context  pavan-minikube
 then 
 #kubectl get pods -n test 
-get an error
-this is because Roll and RollBinding are namespaced meaning the user will be having permisions only for the namespace where Role binding is defined if we try to access resouces in anotehr namesapce 
-we will get an error 
+get an error 
+this is because Roll and RollBinding are namespaced meaning the user will be having permisions only for the namespace
+where Role binding is defined if we try to access resouces in anotehr namesapce we will get an error 
 so previously we define the role binding in the default namespace but we are tryying to access the resources from the test namespace in which we did not create the role Binding 
 
 so when we have multiple namespaces defining RoleBinding in every namespace is a TDS Process and Few resources 
 like Persistent volumes are not even namespaced for which we cannot add role binding
 there must be a way to define Roles and RoleBindings at the cluster level instead of namespace level
+
 that's where cluster Role and Cluster Role Biinding comes into the pictire 
 the only difference b/w Role binding and cluster role binding is that RoleBinding is namespaced 
 whereas Cluster RoleBinding is at the Cluster level that means they can access the resources in any namespace 
 
+ClusterRole is similer to role 
+
+then execute cluster-role and clustero-role-binding in minikube 
+then switch back to pavan user name 
+#kubectl config use-context  pavan-minikube 
+then 
+#kubectl get po -n test or kubectl get po -A 
+
+
 How to handle 100 of users in the cluster 
 should we give same permisions to all users by giving in this array again it's TDS Process
-rhat's where groups comes into the picture 
+hat's where groups comes into the picture 
 Group is nothing but the group of users instead of defining each user seperatly we assign a user to the group
 and here we give the group instead of giving the user 
 
@@ -105,12 +137,13 @@ cluster-role-binding.yaml
 Subjects:
  - kind: Group
    name: dev
+   apiGroup: 
 
 
 =================================================================================
 if my springboot and python application wants to access the same resources ,can we give our credentail in the application , No thats not safe 
 We have service account 
-Service Account are special types of users 
+Service Account are special types of users , wecan call them application users 
 Namespace is created the default service account is created in every namespace 
 Pods where our application runs use these default service Account to authenticate themselves with API sever and 
 if we don't explicitly mention what service account to use 
@@ -120,7 +153,22 @@ so we can get the service account
 #kubectl get sa
 create a Servcie Account 
 #kubectl create sa  test-sa 
+then 
+#kubectl get sa
+
 Now Create a POD 
+apiVersion:
+kind: Pod
+metadata:
+  name: kubectl-pod
+spec:
+ serviceAccount: test-sa
+ containers:
+    -name: kubectl
+     image: bitnami/kubectl
+     command: ["sleep","20000" ]
+#kubectl apply -f kubectl-pod.yaml 
+
 then enter into POD 
 #kubectl exec -it kubectl-pod -- bash 
 then
@@ -146,7 +194,26 @@ then
 #kubectl exec -it kubectl-pod -- bash 
 then
 #kubectl get pods 
-now get result 
+now get result , we created this service Account but we did not attach any role to this service account 
+lets add the permissions to this service account 
+
+role-binding.yaml
+
+subject :
+   -kind: ServiceAccount
+    name: test-sa 
+Save it apply manifest
+#kubectl apply -f role-binding.yaml 
+
+then 
+#kubectl apply -f kubectl-pod.yaml
+#kubectl exec -it kubectl-pod  -- bash
+#kubectl get pods 
+
+So pods uses serviceaccount to access the kubernate resources 
+
+
+
 So Pods usases the ServiceAccount to access the kubernates resources 
 then come out CTRL+X
 check it
